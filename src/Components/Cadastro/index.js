@@ -72,13 +72,9 @@ function Cadastro() {
         });
     }, [product]);
 
-    const keyPressed = useCallback((e) => {
-        setProduct({
-            ...product,
-            [e.target.name]: currencyFormat(e.target.value),
-        });
-
-    }, [product]);
+    const handleKeyUp = useCallback((e) => {
+        e.target.value = currencyFormat(e.target.value);
+    }, []);
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
@@ -121,8 +117,8 @@ function Cadastro() {
                     value={product.description} />
 
                 <Input
-                    onChange={keyPressed}
-                    onKeyPress={keyPressed}
+                    onChange={handleChange}
+                    onKeyUp={handleKeyUp}
                     maxLength="14"
                     placeholder="Preço de Venda"
                     name="price"
