@@ -1,10 +1,17 @@
 import React from 'react';
-import Cadastro from './Components/Cadastro';
+import { BrowserRouter } from "react-router-dom";
+import Header from './Components/Header';
+import Routes from "./routes";
 import './App.css';
 
 function App() {
   return (
-    <Cadastro />
+
+    <BrowserRouter>
+      <Header />
+      <Routes />
+    </BrowserRouter>
+
   );
 }
 
