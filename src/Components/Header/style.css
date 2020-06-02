@@ -1,5 +1,6 @@
+
 header {
-    background: #000;
+    background: #432473;
   }
   
   nav {
@@ -10,7 +11,7 @@ header {
     text-decoration: none;
     padding: 20px;
     color: #fff;
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: 'Ubuntu', sans-serif;
   }
   
   nav a:hover {

@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Update from '../Update';
+import { Container, Table, Button } from './styles';
+import api from '../../../Services/api';
+
 
 function List() {
 
@@ -7,7 +10,13 @@ function List() {
     const [currentProduct, setCurrentProduct] = useState(null);
 
     const listProducts = useCallback(() => {
-        setProducts(JSON.parse(localStorage.getItem("products")));
+
+        api.get("/api/products")
+            .then(response => {
+                console.log(response.data);
+                setProducts(response.data);
+            })
+            .catch(error => console.log(error));
     }, []);
 
     useEffect(() => {
@@ -30,38 +39,48 @@ function List() {
 
     return (
 
-        <div>
-            <h3>Listagem</h3>
+        <Container>
 
-            <table>
-                <thead>
-                    <tr><td>SKU</td>
-                        <td>Nome</td>
-                        <td>Preço</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
 
-                    {products.map(p => (
-                        <tr key={p.sku}>
-                            <td>{p.sku}</td>
-                            <td>{p.name}</td>
-                            <td>{p.price}</td>
-                            <td>
-                                <button
-                                    onClick={() => setCurrentProduct(p)}
-                                >Visualizar detalhes</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            {!currentProduct &&
+                <Container>
+                    <h1>Listagem de produtos</h1>
+
+                    <Table>
+
+                        <thead>
+                            <tr><td>SKU</td>
+                                <td>Nome</td>
+                                <td>Preço</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {products && products.map(p => (
+                                <tr key={p.id}>
+                                    <td>{p.sku}</td>
+                                    <td>{p.name}</td>
+                                    <td>{p.price}</td>
+                                    <td>
+                                        <Button
+                                            onClick={() => setCurrentProduct(p)}
+                                        >Detalhes</Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+
+                    </Table>
+                </Container>
+            }
 
             {currentProduct && <Update product={currentProduct}
                 callBack={callBackEdit} />}
 
-        </div>
+        </Container>
+
+
     );
 }
 

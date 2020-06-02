@@ -1,11 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Container, Form, Input, TextArea, Button } from './styles';
 import DisplayError from '../../Shared/Error';
 import { currencyFormat } from '../../../Helpers/functions';
+import api from '../../../Services/api';
 
 function Add() {
 
     const initialValue = {
+        id: "",
         sku: "",
         name: "",
         description: "",
@@ -17,6 +19,18 @@ function Add() {
     const [product, setProduct] = useState(initialValue);
     const [products, setProducts] = useState([]);
     const [messageError, setMessageError] = useState(null);
+
+    useEffect(() => {
+
+        api.get("/api/products")
+
+            .then(response => {
+                console.log(response.data);
+                setProducts(response.data);
+            })
+            .catch(error => console.log(error));
+
+    }, []);
 
     const validation = useCallback(() => {
 
@@ -82,16 +96,15 @@ function Add() {
         if (!validation())
             return;
 
-        const prods = [...products, product];
-
-        localStorage.setItem("products", JSON.stringify(prods));
-
-        setProducts(prods);
-        setProduct(initialValue);
+        api.post('/api/products', product)
+            .then((response) => {
+                setProduct(initialValue);
+            })
+            .catch((error) => console.log(error));
 
         console.log(product);
 
-    }, [product, products, initialValue, validation]);
+    }, [product, initialValue, validation]);
 
     return (
 
@@ -122,8 +135,10 @@ function Add() {
                     value={product.description} />
 
                 <Input
-                    onChange={handleChange}
-                    onKeyUp={handleKeyUp}
+                    onChange={(e) => {
+                        handleKeyUp(e);
+                        handleChange(e);
+                    }}
                     maxLength="14"
                     placeholder="Preço de Venda"
                     name="price"

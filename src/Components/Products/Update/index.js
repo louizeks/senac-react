@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
+import { Container, Title, Span, Input, Button } from './styles';
+import api from '../../../Services/api';
 function Update({ product, callBack }) {
 
     const initialValue = {
@@ -23,22 +24,18 @@ function Update({ product, callBack }) {
 
     const handleSubmit = useCallback(() => {
 
+        let productId = currentProduct.id;
 
 
-        console.log(currentProduct.name);
+        console.log(currentProduct);
 
-        setProducts(
-            ...products,
-            currentProduct
-        );
 
-        products.splice(products.findIndex((p) => p.sku === currentProduct.sku), 1);
+        api.put(`/api/products/${productId}`, currentProduct)
+            .then((response) => {
+                callBack({ type: "editSuccess" });
+            })
+            .catch((error) => console.log(error));
 
-        const prods = [...products, currentProduct];
-
-        localStorage.setItem("products", JSON.stringify(prods));
-
-        callBack({ type: "editSuccess" });
 
     }, [callBack, products, currentProduct]);
 
@@ -53,20 +50,19 @@ function Update({ product, callBack }) {
 
 
     return (
-        <div className="modal">
-            <span>SKU</span>
-            <input type="text" defaultValue={currentProduct.sku || ""} readOnly />
 
-            <span>Nome</span>
-            <input onChange={handleChange} name="name" type="text" value={currentProduct.name || ""} />
+        <Container>
+            <Title>Edição SKU: {currentProduct.sku || ""} </Title>
+            <Span>Nome</Span>
+            <Input onChange={handleChange} name="name" type="text" value={currentProduct.name || ""} />
 
-            <span>Descrição</span>
-            <input onChange={handleChange} name="description" type="text" value={currentProduct.description || ""} />
+            <Span>Descrição</Span>
+            <Input onChange={handleChange} name="description" type="text" value={currentProduct.description || ""} />
 
-            <button type="button" className="button"
-                onClick={handleSubmit}>Salvar alteração</button>
-            <button type="button" className="button" onClick={() => callBack({ type: "cancelEdit" })}>Cancelar</button>
-        </div>
+            <Button type="button" className="button"
+                onClick={handleSubmit}>Salvar alteração</Button>
+            <Button type="button" className="button" onClick={() => callBack({ type: "cancelEdit" })}>Cancelar</Button>
+        </Container>
     );
 }
 

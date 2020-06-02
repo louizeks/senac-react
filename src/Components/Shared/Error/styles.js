@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
 
     margin: 10px;
-    border: 1px solid #fb2424;
+    border: 1px solid #432473;
     display: flex;
 
     place-content:center;

@@ -12,11 +12,19 @@ export const Container = styled.div`
         text-align:center;
         color: #ff8044;
     }
-
-    h5{
-        color:red;
-    } 
 `;
+
+export const Title = styled.h1`
+        text-align:center;
+        color: #ff8044;
+`;
+
+export const Span = styled.span`
+        text-align:left;
+        color: #ff8044;
+        padding:10px;
+`;
+
 
 export const Form = styled.form`    
     max-width: 100%;
@@ -37,27 +45,15 @@ export const Input = styled.input`
      }    
 `;
 
-export const TextArea = styled.textarea`
-    padding:15px;
-    margin:10px 0px 10px 0px;
-    border: 1px solid #f9811b;
-    border-radius: 5px;
-    margin-top: 10px;
-    outline: none;
-    :focus {
-        border:1px solid #9d44ff;
-        outline: none;
-    }
-`;
-
 export const Button = styled.button`
-    
+    font-family: 'Ubuntu', sans-serif;
+    font-size:20px;
     height: 40px;
     outline:none;
     color:#ff8044;
     background: #8018f3;    
     border-radius: 5px;
-    margin-top: 10px;
+    margin: 10px;
     border: 1px solid #888;
     cursor: pointer;
     :hover {

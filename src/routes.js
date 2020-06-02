@@ -8,6 +8,7 @@ export default function Routes() {
         <Switch>
             <Route path="/cadastro" component={Cadastro} />
             <Route path="/listagem" component={Listagem} />
+            <Route path="/" component={Listagem} />
         </Switch>
     );
 }
